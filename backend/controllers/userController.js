@@ -1,9 +1,12 @@
 //? ===================================================== User Controller =====================================================
 
 
+// ===================== Importing necessary modules/files =====================
+import asyncHandler from 'express-async-handler';
 
 
-const authUser = (req, res) => {
+
+const authUser = asyncHandler ( async (req, res) => {
 
     // @desc Auth user/set token
     // route POST /api/users/auth
@@ -11,7 +14,7 @@ const authUser = (req, res) => {
 
     res.status(200).json({message: 'Authenticated user'});
 
-}
+});
 
 
 
