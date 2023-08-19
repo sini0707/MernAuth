@@ -1,11 +1,28 @@
+//* ===================================================== Server Configuration =====================================================
+
+// ===================== Importing necessary modules =====================
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 
-
+// Server port configuration
 const PORT = process.env.PORT || 5000;
 
+// Express app configuration
 const app = express();
+
+
+// ===================== Importing necessary files =====================
+import userRoutes from './routes/userRoutes.js';
+
+
+// ===================== Express app middleware configuration =====================
+app.use('/api/users', userRoutes);
+
+
+
+
+
 
 app.get('/', (req, res)=> {
     
@@ -14,8 +31,10 @@ app.get('/', (req, res)=> {
 });
 
 
+
+// Starting Server
 app.listen(PORT, ()=> {
 
-    console.log(`SERVER IS LIVE & Listening on ${PORT}`);
+    console.log(`SERVER is LIVE & Listening on PORT ${PORT}.........`);
 
 }); 
