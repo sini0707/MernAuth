@@ -4,6 +4,7 @@
 // ===================== Importing necessary modules/files =====================
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
+import generateToken from '../utils/jwtConfig/generateToken.js';
 
 
 
@@ -51,7 +52,9 @@ const registerUser = asyncHandler ( async (req, res) => {
     
     if (user) {
 
-        // If user is created, send response back
+        // If user is created, send response back with jwt token
+
+        generateToken(res, user._id); // Middleware to Generate token and send it back in response object
 
         const registeredUserData = {
             id: user._id,
@@ -66,7 +69,7 @@ const registerUser = asyncHandler ( async (req, res) => {
         // If user was NOT Created, send error back
 
         res.status(400);
-        
+
         throw new Error('Invalid user data, User registration failed.');
     
     }
