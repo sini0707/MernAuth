@@ -45,6 +45,15 @@ userSchema.pre('save', async function (next) {
 });
 
 
+// ============= Password Verifying Function =============
+userSchema.methods.matchPassword = async function (userProvidedPassword) {
+
+    const validPassword = await bcrypt.compare(userProvidedPassword, this.password);
+
+    return validPassword;
+
+};
+
 
 
 
