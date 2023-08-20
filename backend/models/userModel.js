@@ -27,8 +27,6 @@ const userSchema = mongoose.Schema({
 // ============= Password Hashing Middleware =============
 userSchema.pre('save', async function (next) {
 
-    console.log("Saving password");
-
     if( !this.isModified('password') ) {
 
         next();
