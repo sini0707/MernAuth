@@ -11,6 +11,13 @@ const PORT = process.env.PORT || 5000;
 // Express app configuration
 const app = express();
 
+// ===================== Body parser Middleware from Express =====================
+app.use(express.json());
+
+// =================== Form Data parser Middleware from Express ===================
+app.use(express.urlencoded({ extended: true }));
+
+
 // ===================== Database Configuration =====================
 import connectDB from './config/db.js';
 
