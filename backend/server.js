@@ -11,12 +11,15 @@ const PORT = process.env.PORT || 5000;
 // Express app configuration
 const app = express();
 
+// ===================== Database Configuration =====================
+import connectDB from './config/db.js';
+
+connectDB();
+
 
 // ===================== Importing necessary files =====================
 import userRoutes from './routes/userRoutes.js';
 import { notFoundErrorHandler, errorHandler } from './middlewares/errorMiddleware.js';
-
-
 
 
 //? ===================== Routes Configuration =====================
