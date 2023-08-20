@@ -14,9 +14,12 @@ const app = express();
 
 // ===================== Importing necessary files =====================
 import userRoutes from './routes/userRoutes.js';
+import { notFoundErrorHandler, errorHandler } from './middlewares/errorMiddleware.js';
 
 
-// ===================== Express app middleware configuration =====================
+
+
+//? ===================== Routes Configuration =====================
 app.use('/api/users', userRoutes);
 
 
@@ -31,8 +34,13 @@ app.get('/', (req, res)=> {
 });
 
 
+// ===================== Error handler middleware configuration =====================
+app.use(notFoundErrorHandler);
+app.use(errorHandler);
 
-// Starting Server
+
+
+// ===================== Starting Server =====================
 app.listen(PORT, ()=> {
 
     console.log(`SERVER is LIVE & Listening on PORT ${PORT}.........`);
