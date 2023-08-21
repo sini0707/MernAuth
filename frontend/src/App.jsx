@@ -1,3 +1,5 @@
+import Header from "./components/Header";
+
 
 
 export const App = () => {
@@ -6,6 +8,7 @@ export const App = () => {
 
     <>
 
+      <Header/>
       <h1>MERN User Manager by Alwin</h1>
 
     </>
