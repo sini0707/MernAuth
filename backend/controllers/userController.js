@@ -5,6 +5,7 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import generateToken from '../utils/jwtConfig/generateToken.js';
+import destroyToken from '../utils/jwtConfig/destroyToken.js';
 
 
 
@@ -130,7 +131,9 @@ const logoutUser = asyncHandler ( async (req, res) => {
      # Access: PUBLIC
     */
 
-    res.status(200).json({message: 'Logout user'});
+    destroyToken(res);
+
+    res.status(200).json({message: 'User Logged Out'});
 
 });
 
