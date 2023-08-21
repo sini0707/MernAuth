@@ -14,15 +14,17 @@ const authenticateUser = asyncHandler( async (req, res, next) => {
     
         try {
             
+            // Decode the jwt token using the secret key in the server
             const decodedTokenData = jwt.verify( tokenFromRequest, process.env.JWT_SECRET_KEY);
 
+            // If the Token is valid, search the Db with the userId obtained after decoding jwt payload
             const requestUser = await User.findById(decodedTokenData.userId).select('-password');
 
             if (requestUser) {
             
-                req.user = requestUser;
+                req.user = requestUser; // Set the request user with the user data fetched from the Db
 
-                next();
+                next(); // Proceed to next process
 
             }
 
