@@ -145,7 +145,14 @@ const getUserProfile = asyncHandler ( async (req, res) => {
      # Access: PRIVATE
     */
 
-    res.status(200).json({message: 'User profile'});
+    const user = {
+
+        name: req.user.name,
+        email: req.user.email
+
+    }
+
+    res.status(200).json({user});
 
 });
 
