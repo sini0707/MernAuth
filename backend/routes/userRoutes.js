@@ -2,6 +2,11 @@
 
 // ===================== Importing necessary modules/files =====================
 import express from 'express';
+import authenticateUser from '../middlewares/userAuthMiddleware.js';
+
+
+
+// ===================== Configuring Express Router =====================
 const router = express.Router();
 
 import {
@@ -26,10 +31,8 @@ router.post('/auth', authUser);
 
 router.post('/logout', logoutUser);
 
-router.route('/profile').get(getUserProfile).put(updateUserProfile);
+router.route('/profile').get( authenticateUser, getUserProfile ).put( authenticateUser, updateUserProfile );
 // In the above line, the route is same, above line will use the specified controller according to the type of the request
-
-router.post('/auth', authUser);
 
 
 

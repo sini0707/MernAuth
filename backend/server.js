@@ -3,25 +3,8 @@
 // ===================== Importing necessary modules =====================
 import express from 'express';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 dotenv.config();
-
-// Server port configuration
-const PORT = process.env.PORT || 5000;
-
-// Express app configuration
-const app = express();
-
-// ===================== Body parser Middleware from Express =====================
-app.use(express.json());
-
-// =================== Form Data parser Middleware from Express ===================
-app.use(express.urlencoded({ extended: true }));
-
-
-// ===================== Database Configuration =====================
-import connectDB from './config/db.js';
-
-connectDB();
 
 
 // ===================== Importing necessary files =====================
@@ -29,30 +12,50 @@ import userRoutes from './routes/userRoutes.js';
 import { notFoundErrorHandler, errorHandler } from './middlewares/errorMiddleware.js';
 
 
+// Server port configuration
+const PORT = process.env.PORT || 5000;
+
+// Express app configuration
+const app = express();
+
+// ===================== Database Configuration =====================
+import connectDB from './config/db.js';
+
+connectDB();
+
+
+// ========================================== Middleware's ==========================================
+
+app.use(cookieParser()); // CookieParser Middleware
+
+app.use(express.json()); // Body parser Middleware from Express
+
+app.use(express.urlencoded({ extended: true })); // Form Data parser Middleware from Express
+
+
+
+//? ===================== Application Home Route =====================
+app.get('/', (req, res)=> {
+    
+    res.status(200).send(`${process.env.APPLICATION_NAME} server is Up & Running.`);
+
+});
+
+
 //? ===================== Routes Configuration =====================
 app.use('/api/users', userRoutes);
 
 
 
-
-
-
-app.get('/', (req, res)=> {
-    
-    res.status(200).send("Application is running");
-
-});
-
-
-// ===================== Error handler middleware configuration =====================
+//? ===================== Error handler middleware configuration =====================
 app.use(notFoundErrorHandler);
 app.use(errorHandler);
 
 
 
-// ===================== Starting Server =====================
+//NOTE ===================== Starting Server =====================
 app.listen(PORT, ()=> {
 
-    console.log(`SERVER is LIVE & Listening on PORT ${PORT}.........`);
+    console.log(`${process.env.APPLICATION_NAME} SERVER is LIVE & Listening on PORT ${PORT}.........`);
 
 }); 
