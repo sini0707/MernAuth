@@ -27,8 +27,6 @@ const userSchema = mongoose.Schema({
 // ============= Password Hashing Middleware =============
 userSchema.pre('save', async function (next) {
 
-    console.log("Saving password");
-
     if( !this.isModified('password') ) {
 
         next();
@@ -46,6 +44,15 @@ userSchema.pre('save', async function (next) {
 
 });
 
+
+// ============= Password Verifying Function =============
+userSchema.methods.matchPassword = async function (userProvidedPassword) {
+
+    const validPassword = await bcrypt.compare(userProvidedPassword, this.password);
+
+    return validPassword;
+
+};
 
 
 

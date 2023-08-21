@@ -4,6 +4,8 @@
 // ===================== Importing necessary modules/files =====================
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
+import generateToken from '../utils/jwtConfig/generateToken.js';
+import destroyToken from '../utils/jwtConfig/destroyToken.js';
 
 
 
@@ -15,7 +17,53 @@ const authUser = asyncHandler ( async (req, res) => {
      # Access: PUBLIC
     */
 
-    res.status(200).json({message: 'Authenticated user'});
+    const { email, password } = req.body;
+
+    if ( !email || !password ) {
+
+        // If email or password is empty, return error
+
+        res.status(401);
+
+        throw new Error('Email or Password is missing in the request, User authentication failed.');
+
+    }
+
+    // Find the user in Db with the email and password
+    const user = await User.findOne({ email: email});
+
+    let passwordValid = false;
+    
+    if (user) {
+
+        passwordValid = await user.matchPassword(password);
+
+    }
+
+    if ( passwordValid ) {
+
+        // If user is created, send response back with jwt token
+
+        generateToken(res, user._id); // Middleware to Generate token and send it back in response object
+
+        const registeredUserData = {
+            name: user.name,
+            email: user.email
+        }
+
+        res.status(201).json(registeredUserData);
+
+    } 
+    
+    if( !user || !passwordValid ) {
+
+        // If user or user password is not valid, send error back
+
+        res.status(401);
+
+        throw new Error('Invalid Email or Password, User authentication failed.');
+    
+    }
 
 });
 
@@ -51,10 +99,11 @@ const registerUser = asyncHandler ( async (req, res) => {
     
     if (user) {
 
-        // If user is created, send response back
+        // If user is created, send response back with jwt token
+
+        generateToken(res, user._id); // Middleware to Generate token and send it back in response object
 
         const registeredUserData = {
-            id: user._id,
             name: user.name,
             email: user.email
         }
@@ -66,7 +115,7 @@ const registerUser = asyncHandler ( async (req, res) => {
         // If user was NOT Created, send error back
 
         res.status(400);
-        
+
         throw new Error('Invalid user data, User registration failed.');
     
     }
@@ -82,7 +131,9 @@ const logoutUser = asyncHandler ( async (req, res) => {
      # Access: PUBLIC
     */
 
-    res.status(200).json({message: 'Logout user'});
+    destroyToken(res);
+
+    res.status(200).json({message: 'User Logged Out'});
 
 });
 
