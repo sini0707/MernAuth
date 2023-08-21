@@ -164,7 +164,39 @@ const updateUserProfile = asyncHandler ( async (req, res) => {
      # Access: PRIVATE
     */
 
-    res.status(200).json({message: 'Update user profile'});
+    // Find the user data with user id in the request object
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+    
+        // Update the user with new data if found or keep the old data itself.
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+
+        // If request has new password, update the user with the new password
+        if (req.body.password) {
+
+            user.password = req.body.password
+        
+        }
+
+        const updatedUserData = await user.save();
+
+        // Send the response with updated user data
+        res.status(200).json({
+
+            name: updatedUserData.name,
+            email: updatedUserData.email
+
+        });
+
+    } else {
+
+        res.status(404);
+
+        throw new Error("Requested User not found.");
+
+    };
 
 });
 
