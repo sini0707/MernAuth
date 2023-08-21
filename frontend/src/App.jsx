@@ -1,15 +1,16 @@
 import Header from "./components/Header";
+import HomeScreen from "./screens/HomeScreen";
 
 
 
-export const App = () => {
+const App = () => {
 
   return (
 
     <>
 
       <Header/>
-      <h1>MERN User Manager by Alwin</h1>
+      <HomeScreen/>
 
     </>
 
