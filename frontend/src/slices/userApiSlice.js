@@ -1,7 +1,7 @@
 import { apiSlice } from "./apiSlice";
-import { USER_AUTHENTICATION_URL } from '../utils/constants.js';
+import { USER_AUTHENTICATION_URL, USER_LOGOUT_URL } from '../utils/constants.js';
 
-const USER_AUTH_URL = USER_AUTHENTICATION_URL;
+const USER_AUTH_URL = USER_AUTHENTICATION_URL; 
 
 export const usersApiSlice = apiSlice.injectEndpoints({
     
@@ -15,6 +15,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data
             })
 
+        }),
+        logout: builder.mutation({
+            
+            query: () => ({
+                url: USER_LOGOUT_URL,
+                method: 'POST'
+            })
+
         })
 
     })
@@ -22,4 +30,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 })
 
 
-export const { useLoginMutation } = usersApiSlice;
+export const { useLoginMutation, useLogoutMutation } = usersApiSlice;
