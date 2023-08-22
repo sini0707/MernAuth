@@ -8,6 +8,9 @@ import { setCredentials } from "../slices/authSlice";
 
 
 import FormContainer from "../components/FormContainer";
+import { toast } from "react-toastify";
+
+
 
 const LoginScreen = () => {
 
@@ -37,13 +40,15 @@ const LoginScreen = () => {
 
     try {
       
-      const responseFromApiCall = await login( { email, password } );
+      const responseFromApiCall = await login( { email, password } ).unwrap();
 
-      setCredentials( { ...responseFromApiCall } );
+      dispatch( setCredentials( { ...responseFromApiCall } ) );
       
+      navigate('/');
+
     }catch(err){
 
-      console.log( err?.data?.message || err.error );
+      toast.error( err?.data?.message || err?.error );
 
     }
 
