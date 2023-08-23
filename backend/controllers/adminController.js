@@ -55,7 +55,7 @@ const authAdmin = asyncHandler ( async (req, res) => {
 
     } 
     
-    if( !user || !passwordValid ) {
+    if( !admin || !passwordValid ) {
 
         // If user or user password is not valid, send error back
 
