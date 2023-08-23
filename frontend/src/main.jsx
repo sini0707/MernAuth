@@ -7,12 +7,19 @@ import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 
+//? ==================================== User Screens Import ====================================
 import PrivateRoutes from './screens/PrivateRoutes.jsx';
 import HomeScreen from './screens/HomeScreen.jsx';
 import LoginScreen from './screens/LoginScreen.jsx';
 import RegisterScreen from './screens/RegisterScreen.jsx';
 import ProfileScreen from './screens/ProfileScreen.jsx';
 
+//? ==================================== Admin Screens Import ====================================
+import AdminPrivateRoutes from './screens/adminScreens/PrivateRoutes.jsx';
+import AdminHomeScreen from './screens/adminScreens/HomeScreen.jsx';
+import AdminLoginScreen from './screens/adminScreens/LoginScreen.jsx';
+import AdminRegisterScreen from './screens/adminScreens/RegisterScreen.jsx';
+import AdminProfileScreen from './screens/adminScreens/ProfileScreen.jsx';
 
 
 const router = createBrowserRouter(
@@ -21,16 +28,33 @@ const router = createBrowserRouter(
 
     <Route path='/' element={ <App/> } >
 
+      { /* ===================================== User Routes ===================================== */ }
+
       <Route index={true} path='/' element={ <HomeScreen /> } />
 
       <Route path='/login' element={ <LoginScreen /> } />
 
       <Route path='/register' element={ <RegisterScreen /> } />
 
-      {/* PRIVATE ROUTES */}
+      {/* USER PRIVATE ROUTES */}
       <Route path='' element={ <PrivateRoutes /> } >
         
         <Route path='/profile' element={ <ProfileScreen /> } />
+
+      </Route>
+
+      { /* ===================================== Admin Routes ===================================== */ }
+
+      <Route path='/admin' element={ <AdminHomeScreen /> } />
+
+      <Route path='/admin/login' element={ <AdminLoginScreen /> } />
+
+      <Route path='/admin/register' element={ <AdminRegisterScreen /> } />
+
+      {/* ADMIN PRIVATE ROUTES */}
+      <Route path='' element={ <AdminPrivateRoutes /> } >
+        
+        <Route path='/admin/profile' element={ <AdminProfileScreen /> } />
 
       </Route>
 
