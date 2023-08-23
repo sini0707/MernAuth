@@ -7,7 +7,7 @@ import AdminModel from '../models/adminModel.js';
 import generateAdminToken from '../utils/jwtConfig/adminJwtConfig/generateAdminToken.js';
 import destroyAdminToken from '../utils/jwtConfig/adminJwtConfig/destroyAdminToken.js';
 
-import { fetchAllUsers } from '../utils/Helpers/adminHelpers.js';
+import { fetchAllUsers, deleteUser } from '../utils/Helpers/adminHelpers.js';
 
 
 
@@ -251,6 +251,30 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
 });
 
+const deleteUserData = asyncHandler( async (req, res) => {
+
+    const userId = req.body.userId;
+
+    const usersDeleteStatus = await deleteUser(userId);
+
+    if(usersDeleteStatus.success){
+
+        const response = usersDeleteStatus.message;
+
+        res.status(200).json({ message:response });
+
+    }else{
+
+        res.status(404);
+
+        const response = usersDeleteStatus.message;
+
+        throw new Error(response);
+
+    }
+
+});
+
 
 
 export {
@@ -260,6 +284,7 @@ export {
     logoutAdmin,
     getAdminProfile,
     updateAdminProfile,
-    getAllUsers
+    getAllUsers,
+    deleteUserData
 
 };
