@@ -4,8 +4,8 @@
 // ===================== Importing necessary modules/files =====================
 import asyncHandler from 'express-async-handler';
 import AdminModel from '../models/adminModel.js';
-import generateToken from '../utils/jwtConfig/generateToken.js';
-import destroyToken from '../utils/jwtConfig/destroyToken.js';
+import generateAdminToken from '../utils/jwtConfig/adminJwtConfig/generateAdminToken.js';
+import destroyAdminToken from '../utils/jwtConfig/adminJwtConfig/destroyAdminToken.js';
 
 
 
@@ -44,7 +44,7 @@ const authAdmin = asyncHandler ( async (req, res) => {
 
         // If user is created, send response back with jwt token
 
-        generateToken(res, admin._id); // Middleware to Generate token and send it back in response object
+        generateAdminToken(res, admin._id); // Middleware to Generate token and send it back in response object
 
         const registeredAdminData = {
             name: admin.name,
@@ -132,7 +132,7 @@ const registerAdmin = asyncHandler ( async (req, res) => {
 
         // If user is created, send response back with jwt token
 
-        generateToken(res, user._id); // Middleware to Generate token and send it back in response object
+        generateAdminToken(res, user._id); // Middleware to Generate token and send it back in response object
 
         const registeredUserData = {
             name: user.name,
@@ -162,7 +162,7 @@ const logoutAdmin = asyncHandler ( async (req, res) => {
      # Access: PUBLIC
     */
 
-    destroyToken(res);
+    destroyAdminToken(res);
 
     res.status(200).json({message: 'Admin Logged Out'});
 
