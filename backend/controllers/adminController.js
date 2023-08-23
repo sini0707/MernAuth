@@ -278,8 +278,6 @@ const deleteUserData = asyncHandler( async (req, res) => {
 
 const updateUserData = asyncHandler( async (req, res) => {
 
-    console.log("ssssssssssssssss", req.body);
-
     const userId = req.body.userId;
     const name = req.body.name;
     const email = req.body.email;
