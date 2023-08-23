@@ -33,7 +33,7 @@ router.post('/auth', authUser);
 
 router.post('/logout', logoutUser);
 
-router.route('/profile').get( authenticateUser, getUserProfile ).put( authenticateUser, multerUploadUserProfile.single('file'), updateUserProfile );
+router.route('/profile').get( authenticateUser, getUserProfile ).put( authenticateUser, multerUploadUserProfile.single('profileImage'), updateUserProfile );
 // In the above line, the route is same, above line will use the specified controller according to the type of the request
 
 

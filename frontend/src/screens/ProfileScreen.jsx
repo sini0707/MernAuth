@@ -23,6 +23,7 @@ const ProfileScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [profileImage, setProfileImage] = useState();
 
   const dispatch = useDispatch();
 
@@ -50,7 +51,14 @@ const ProfileScreen = () => {
 
       try{
 
-        const responseFromApiCall = await updateProfile( { name, email, password } ).unwrap();
+        const formData = new FormData();
+
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('profileImage', profileImage);
+
+        const responseFromApiCall = await updateProfile( formData ).unwrap();
 
         dispatch( setCredentials( { ...responseFromApiCall } ) );
         
@@ -111,6 +119,14 @@ const ProfileScreen = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 ></Form.Control>
+            </Form.Group>
+
+            <Form.Group className="my-2" controlId="profileImage">
+              <Form.Label>Profile Picture</Form.Label>
+              <Form.Control
+                type="file"
+                onChange={(e) => setProfileImage(e.target.files[0])}
+              ></Form.Control>
             </Form.Group>
 
             <Button type="submit" variant="primary" className="mt-3"> Save </Button>
