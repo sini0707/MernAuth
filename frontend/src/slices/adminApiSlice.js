@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-import { ADMIN_AUTHENTICATION_URL, ADMIN_LOGOUT_URL, ADMIN_REGISTRATION_URL, ADMIN_PROFILE_URL } from '../utils/constants.js';
+import { ADMIN_AUTHENTICATION_URL, ADMIN_LOGOUT_URL, ADMIN_REGISTRATION_URL, ADMIN_PROFILE_URL, ADMIN_USERS_DATA_FETCH_URL } from '../utils/constants.js';
 
 
 
@@ -41,6 +41,14 @@ export const adminApiSlice = apiSlice.injectEndpoints({
                 body: data
             })
 
+        }),
+        getUsersData: builder.mutation({
+            
+            query: () => ({
+                url: ADMIN_USERS_DATA_FETCH_URL,
+                method: 'POST'
+            })
+
         })
 
     })
@@ -48,4 +56,4 @@ export const adminApiSlice = apiSlice.injectEndpoints({
 })
 
 
-export const { useAdminLoginMutation, useAdminLogoutMutation, useAdminRegisterMutation, useUpdateAdminMutation } = adminApiSlice;
+export const { useAdminLoginMutation, useAdminLogoutMutation, useAdminRegisterMutation, useUpdateAdminMutation, useGetUsersDataMutation } = adminApiSlice;

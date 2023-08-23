@@ -14,7 +14,8 @@ import {
     registerAdmin,
     logoutAdmin,
     getAdminProfile,
-    updateAdminProfile
+    updateAdminProfile,
+    getAllUsers
 } from '../controllers/adminController.js';
 
 
@@ -33,6 +34,8 @@ router.post('/logout', logoutAdmin);
 
 router.route('/profile').get( authenticateAdmin, getAdminProfile ).put( authenticateAdmin, updateAdminProfile );
 // In the above line, the route is same, above line will use the specified controller according to the type of the request
+
+router.post('/get-users', getAllUsers);
 
 
 
