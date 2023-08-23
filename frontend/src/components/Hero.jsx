@@ -3,6 +3,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import { useSelector } from 'react-redux';
 
+import { PROFILE_IMAGE_DIR_PATH } from '../utils/constants';
+
 const Hero = () => {
 
   const { userInfo } = useSelector( (state) => state.auth);
@@ -14,6 +16,16 @@ const Hero = () => {
         <Card className='p-5 d-flex flex-column align-items-center hero-card bg-light w-75'>
           { userInfo ? 
             <>
+              {userInfo.profileImageName && <img 
+              src={PROFILE_IMAGE_DIR_PATH + userInfo.profileImageName} 
+              alt={userInfo.name}
+              style={{
+                width: '150px',
+                height: '150px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+              }} 
+              />}
               <h2 className='text-center mb-4'> Welcome back {userInfo.name} </h2>
               <p className='text-center mb-4'> Email: {userInfo.email} </p>
               <div className='d-flex'>
