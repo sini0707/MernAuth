@@ -16,7 +16,8 @@ import {
     getAdminProfile,
     updateAdminProfile,
     getAllUsers,
-    deleteUserData
+    deleteUserData,
+    updateUserData
 } from '../controllers/adminController.js';
 
 
@@ -39,6 +40,8 @@ router.route('/profile').get( authenticateAdmin, getAdminProfile ).put( authenti
 router.post('/get-users', authenticateAdmin, getAllUsers);
 
 router.post('/delete-user', authenticateAdmin, deleteUserData);
+
+router.put('/update-user', updateUserData);
 
 
 
