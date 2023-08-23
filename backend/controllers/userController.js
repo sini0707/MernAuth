@@ -180,6 +180,12 @@ const updateUserProfile = asyncHandler ( async (req, res) => {
         
         }
 
+        if(req.file){
+
+            user.profileImageName = req.file.filename || user.profileImageName;
+
+        }
+
         const updatedUserData = await user.save();
 
         // Send the response with updated user data

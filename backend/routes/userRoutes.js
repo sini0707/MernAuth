@@ -17,6 +17,8 @@ import {
     updateUserProfile
 } from '../controllers/userController.js';
 
+import { multerUploadUserProfile } from '../config/multerConfig.js';
+
 
 
 
@@ -31,7 +33,7 @@ router.post('/auth', authUser);
 
 router.post('/logout', logoutUser);
 
-router.route('/profile').get( authenticateUser, getUserProfile ).put( authenticateUser, updateUserProfile );
+router.route('/profile').get( authenticateUser, getUserProfile ).put( authenticateUser, multerUploadUserProfile.single('file'), updateUserProfile );
 // In the above line, the route is same, above line will use the specified controller according to the type of the request
 
 
