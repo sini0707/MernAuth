@@ -35,7 +35,7 @@ router.post('/logout', logoutAdmin);
 router.route('/profile').get( authenticateAdmin, getAdminProfile ).put( authenticateAdmin, updateAdminProfile );
 // In the above line, the route is same, above line will use the specified controller according to the type of the request
 
-router.get('/get-users', getAllUsers);
+router.post('/get-users', getAllUsers);
 
 
 

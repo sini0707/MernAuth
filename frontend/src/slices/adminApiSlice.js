@@ -46,7 +46,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
             
             query: () => ({
                 url: ADMIN_USERS_DATA_FETCH_URL,
-                method: 'GET'
+                method: 'POST'
             })
 
         })
