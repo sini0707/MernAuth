@@ -4,8 +4,8 @@
 // ===================== Importing necessary modules/files =====================
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
-import generateToken from '../utils/jwtConfig/generateToken.js';
-import destroyToken from '../utils/jwtConfig/destroyToken.js';
+import generateUserToken from '../utils/jwtConfig/userJwtConfig/generateUserToken.js';
+import destroyUserToken from '../utils/jwtConfig/userJwtConfig/destroyUserToken.js';
 
 
 
@@ -44,7 +44,7 @@ const authUser = asyncHandler ( async (req, res) => {
 
         // If user is created, send response back with jwt token
 
-        generateToken(res, user._id); // Middleware to Generate token and send it back in response object
+        generateUserToken(res, user._id); // Middleware to Generate token and send it back in response object
 
         const registeredUserData = {
             name: user.name,
@@ -101,7 +101,7 @@ const registerUser = asyncHandler ( async (req, res) => {
 
         // If user is created, send response back with jwt token
 
-        generateToken(res, user._id); // Middleware to Generate token and send it back in response object
+        generateUserToken(res, user._id); // Middleware to Generate token and send it back in response object
 
         const registeredUserData = {
             name: user.name,
@@ -131,7 +131,7 @@ const logoutUser = asyncHandler ( async (req, res) => {
      # Access: PUBLIC
     */
 
-    destroyToken(res);
+    destroyUserToken(res);
 
     res.status(200).json({message: 'User Logged Out'});
 
