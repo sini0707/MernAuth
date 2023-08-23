@@ -75,7 +75,38 @@ const registerAdmin = asyncHandler ( async (req, res) => {
      # Access: PUBLIC
     */
 
-    const { name, email, password } = req.body;
+    const { name, email, password, adminRegistrationKey } = req.body;
+
+    if ( !email || !password ) {
+
+        // If email or password is empty, return error
+
+        res.status(401);
+
+        throw new Error('Email or Password is missing in the request, Admin registration failed.');
+
+    }
+
+    if ( !adminRegistrationKey ) {
+
+        // If adminRegistrationKey is empty, return error
+
+        res.status(401);
+
+        throw new Error('No Admin Registration Access Code, Admin registration aborted.');
+
+    }else{
+
+        // Check if Admin registration key is valid
+        if(process.env.ADMIN_REGISTRATION_KEY !== adminRegistrationKey){
+
+            res.status(401);
+
+            throw new Error('Invalid Admin Registration Access Code, Admin registration failed.');
+
+        }
+
+    }
 
     // Check if user already exist
     const userExists = await AdminModel.findOne({ email });
