@@ -24,6 +24,9 @@ import connectDB from './config/db.js';
 
 connectDB();
 
+// ===================== Setting Static Folder =====================
+app.use(express.static('backend/Public'));
+
 
 // ========================================== Middleware's ==========================================
 
