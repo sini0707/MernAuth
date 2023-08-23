@@ -7,7 +7,7 @@ import AdminModel from '../models/adminModel.js';
 import generateAdminToken from '../utils/jwtConfig/adminJwtConfig/generateAdminToken.js';
 import destroyAdminToken from '../utils/jwtConfig/adminJwtConfig/destroyAdminToken.js';
 
-import { fetchAllUsers, deleteUser } from '../utils/Helpers/adminHelpers.js';
+import { fetchAllUsers, deleteUser, updateUser } from '../utils/Helpers/adminHelpers.js';
 
 
 
@@ -276,6 +276,42 @@ const deleteUserData = asyncHandler( async (req, res) => {
 });
 
 
+const updateUserData = asyncHandler( async (req, res) => {
+
+    console.log("ssssssssssssssss", req.body);
+
+    const userId = req.body.userId;
+    const name = req.body.name;
+    const email = req.body.email;
+
+    if(!userId){
+
+        res.status(404);;
+
+        throw new Error("UserId not received in request. User update failed.");
+
+    }
+
+    const userData = {userId: userId, name: name, email: email};
+
+    const usersUpdateStatus = await updateUser(userData);
+
+    if(usersUpdateStatus.success){
+
+        const response = usersUpdateStatus.message;
+
+        res.status(200).json({ message:response });
+
+    }else{
+
+        res.status(404);;
+
+        throw new Error("User update failed.");
+
+    }
+
+});
+
 
 export {
 
@@ -285,6 +321,7 @@ export {
     getAdminProfile,
     updateAdminProfile,
     getAllUsers,
-    deleteUserData
+    deleteUserData,
+    updateUserData
 
 };
