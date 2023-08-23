@@ -24,6 +24,7 @@ const AdminRegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [adminRegistrationKey, setAdminRegistrationKey] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const AdminRegisterScreen = () => {
 
       try{
 
-        const responseFromApiCall = await register( { name, email, password } ).unwrap();
+        const responseFromApiCall = await register( { name, email, password, adminRegistrationKey } ).unwrap();
 
         dispatch( setCredentials( { ...responseFromApiCall } ) );
         
@@ -114,6 +115,16 @@ const AdminRegisterScreen = () => {
                     placeholder="Re-enter password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                ></Form.Control>
+            </Form.Group>
+
+            <Form.Group className="my-2" controlId="confirmPassword">
+                <Form.Label>Admin Registration Code</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="Enter admin registration code"
+                    value={adminRegistrationKey}
+                    onChange={(e) => setAdminRegistrationKey(e.target.value)}
                 ></Form.Control>
             </Form.Group>
 
