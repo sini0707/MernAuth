@@ -1,4 +1,4 @@
-//? ===================================================== User Controller =====================================================
+//? ===================================================== Admin Controller =====================================================
 
 
 // ===================== Importing necessary modules/files =====================
@@ -6,6 +6,8 @@ import asyncHandler from 'express-async-handler';
 import AdminModel from '../models/adminModel.js';
 import generateAdminToken from '../utils/jwtConfig/adminJwtConfig/generateAdminToken.js';
 import destroyAdminToken from '../utils/jwtConfig/adminJwtConfig/destroyAdminToken.js';
+
+import { fetchAllUsers } from '../utils/Helpers/adminHelpers.js';
 
 
 
@@ -231,6 +233,24 @@ const updateAdminProfile = asyncHandler ( async (req, res) => {
 
 });
 
+const getAllUsers = asyncHandler(async (req, res) => {
+
+    const usersData = await fetchAllUsers();
+
+    if(usersData){
+
+        res.status(200).json({ usersData });
+
+    }else{
+
+        res.status(404);
+
+        throw new Error("Users data fetch failed.");
+
+    }
+
+});
+
 
 
 export {
@@ -239,6 +259,7 @@ export {
     registerAdmin,
     logoutAdmin,
     getAdminProfile,
-    updateAdminProfile
+    updateAdminProfile,
+    getAllUsers
 
 };
