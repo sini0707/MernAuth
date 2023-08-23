@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 
 import Loader from "../components/Loader";
 
+import { PROFILE_IMAGE_DIR_PATH } from "../utils/constants";
+
 
 
 
@@ -78,7 +80,30 @@ const ProfileScreen = () => {
 
   return (
     <FormContainer>
-      <h1>Update Profile</h1>
+
+      {userInfo.profileImageName && (
+        <img
+          src={PROFILE_IMAGE_DIR_PATH + userInfo.profileImageName}
+          alt={userInfo.name}
+          style={{
+            width: "150px",
+            height: "150px",
+            borderRadius: "50%",
+            objectFit: "cover",
+            display: "block",
+            marginTop: "5px",
+            marginLeft: "115px",
+            marginBottom: "10px",
+          }}
+        />
+      )}
+
+      <h3 style={{
+            display: "block",
+            marginTop: "5px",
+            marginLeft: "100px",
+            marginBottom: "5px",
+      }}>Update Profile</h3>
 
       <Form onSubmit={submitHandler}>
             <Form.Group className="my-2" controlId="name">            

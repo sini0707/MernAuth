@@ -46,9 +46,15 @@ const authUser = asyncHandler ( async (req, res) => {
 
         generateUserToken(res, user._id); // Middleware to Generate token and send it back in response object
 
-        const registeredUserData = {
+        let registeredUserData = {
             name: user.name,
             email: user.email
+        }
+
+        if(user.profileImageName){
+
+            registeredUserData.profileImageName = user.profileImageName;
+            
         }
 
         res.status(201).json(registeredUserData);
@@ -148,7 +154,8 @@ const getUserProfile = asyncHandler ( async (req, res) => {
     const user = {
 
         name: req.user.name,
-        email: req.user.email
+        email: req.user.email,
+        profileImageName: req.user.profileImageName
 
     }
 
@@ -192,7 +199,8 @@ const updateUserProfile = asyncHandler ( async (req, res) => {
         res.status(200).json({
 
             name: updatedUserData.name,
-            email: updatedUserData.email
+            email: updatedUserData.email,
+            profileImageName: updatedUserData.profileImageName
 
         });
 
