@@ -1,45 +1,42 @@
 import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import FormContainer from "../components/FormContainer";
+import FormContainer from "../../components/FormContainer";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setCredentials } from "../slices/authSlice";
-import { useUpdateUserMutation } from "../slices/userApiSlice";
+import { setCredentials } from "../../slices/adminAuthSlice";
+import { useUpdateAdminMutation } from "../../slices/adminApiSlice";
 
 import { toast } from "react-toastify";
 
-import Loader from "../components/Loader";
-
-import { PROFILE_IMAGE_DIR_PATH } from "../utils/constants";
+import Loader from "../../components/Loader";
 
 
 
 
 
 
-const ProfileScreen = () => {
+const AdminProfileScreen = () => {
 
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [profileImage, setProfileImage] = useState();
 
   const dispatch = useDispatch();
 
-  const { userInfo } = useSelector( (state) => state.auth );
+  const { adminInfo } = useSelector( (state) => state.adminAuth );
 
-  const [ updateProfile, { isLoading } ] = useUpdateUserMutation()
+  const [ updateProfile, { isLoading } ] = useUpdateAdminMutation()
 
 
   useEffect(() => {
 
-    setName(userInfo.name);
-    setEmail(userInfo.email);
+    setName(adminInfo.name);
+    setEmail(adminInfo.email);
 
-  },[ userInfo.name, userInfo.email])
+  },[ adminInfo.name, adminInfo.email])
 
   const submitHandler = async (e) => {
     
@@ -53,14 +50,7 @@ const ProfileScreen = () => {
 
       try{
 
-        const formData = new FormData();
-
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('profileImage', profileImage);
-
-        const responseFromApiCall = await updateProfile( formData ).unwrap();
+        const responseFromApiCall = await updateProfile( { name, email, password } ).unwrap();
 
         dispatch( setCredentials( { ...responseFromApiCall } ) );
         
@@ -80,30 +70,7 @@ const ProfileScreen = () => {
 
   return (
     <FormContainer>
-
-      {userInfo.profileImageName && (
-        <img
-          src={PROFILE_IMAGE_DIR_PATH + userInfo.profileImageName}
-          alt={userInfo.name}
-          style={{
-            width: "150px",
-            height: "150px",
-            borderRadius: "50%",
-            objectFit: "cover",
-            display: "block",
-            marginTop: "5px",
-            marginLeft: "115px",
-            marginBottom: "10px",
-          }}
-        />
-      )}
-
-      <h3 style={{
-            display: "block",
-            marginTop: "5px",
-            marginLeft: "100px",
-            marginBottom: "5px",
-      }}>Update Profile</h3>
+      <h1>Update Profile</h1>
 
       <Form onSubmit={submitHandler}>
             <Form.Group className="my-2" controlId="name">            
@@ -146,14 +113,6 @@ const ProfileScreen = () => {
                 ></Form.Control>
             </Form.Group>
 
-            <Form.Group className="my-2" controlId="profileImage">
-              <Form.Label>Profile Picture</Form.Label>
-              <Form.Control
-                type="file"
-                onChange={(e) => setProfileImage(e.target.files[0])}
-              ></Form.Control>
-            </Form.Group>
-
             <Button type="submit" variant="primary" className="mt-3"> Save </Button>
       </Form>
 
@@ -163,4 +122,4 @@ const ProfileScreen = () => {
   );
 };
 
-export default ProfileScreen;
+export default AdminProfileScreen;

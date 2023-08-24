@@ -1,24 +1,24 @@
-//? ===================================================== User Authentication Middleware =====================================================
+//? ===================================================== Admin Authentication Middleware =====================================================
 
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
-import User from '../models/userModel.js';
+import AdminModel from '../models/adminModel.js';
 
 
 
-const authenticateUser = asyncHandler( async (req, res, next) => {
+const authenticateAdmin = asyncHandler( async (req, res, next) => {
 
-    const tokenFromRequest = req.cookies.userJwt;
+    const tokenFromRequest = req.cookies.adminJwt;
 
     if (tokenFromRequest) {
     
         try {
             
             // Decode the jwt token using the secret key in the server
-            const decodedTokenData = jwt.verify( tokenFromRequest, process.env.JWT_SECRET_KEY_USER);
+            const decodedTokenData = jwt.verify( tokenFromRequest, process.env.JWT_SECRET_KEY_ADMIN);
 
             // If the Token is valid, search the Db with the userId obtained after decoding jwt payload
-            const requestUser = await User.findById(decodedTokenData.userId).select('-password');
+            const requestUser = await AdminModel.findById(decodedTokenData.userId).select('-password');
 
             if (requestUser) {
             
@@ -47,5 +47,5 @@ const authenticateUser = asyncHandler( async (req, res, next) => {
 });
 
 
-export default authenticateUser;
+export default authenticateAdmin;
 

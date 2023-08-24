@@ -4,8 +4,8 @@
 // ===================== Importing necessary modules/files =====================
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
-import generateToken from '../utils/jwtConfig/generateToken.js';
-import destroyToken from '../utils/jwtConfig/destroyToken.js';
+import generateUserToken from '../utils/jwtConfig/userJwtConfig/generateUserToken.js';
+import destroyUserToken from '../utils/jwtConfig/userJwtConfig/destroyUserToken.js';
 
 
 
@@ -44,11 +44,17 @@ const authUser = asyncHandler ( async (req, res) => {
 
         // If user is created, send response back with jwt token
 
-        generateToken(res, user._id); // Middleware to Generate token and send it back in response object
+        generateUserToken(res, user._id); // Middleware to Generate token and send it back in response object
 
-        const registeredUserData = {
+        let registeredUserData = {
             name: user.name,
             email: user.email
+        }
+
+        if(user.profileImageName){
+
+            registeredUserData.profileImageName = user.profileImageName;
+            
         }
 
         res.status(201).json(registeredUserData);
@@ -101,7 +107,7 @@ const registerUser = asyncHandler ( async (req, res) => {
 
         // If user is created, send response back with jwt token
 
-        generateToken(res, user._id); // Middleware to Generate token and send it back in response object
+        generateUserToken(res, user._id); // Middleware to Generate token and send it back in response object
 
         const registeredUserData = {
             name: user.name,
@@ -131,7 +137,7 @@ const logoutUser = asyncHandler ( async (req, res) => {
      # Access: PUBLIC
     */
 
-    destroyToken(res);
+    destroyUserToken(res);
 
     res.status(200).json({message: 'User Logged Out'});
 
@@ -148,7 +154,8 @@ const getUserProfile = asyncHandler ( async (req, res) => {
     const user = {
 
         name: req.user.name,
-        email: req.user.email
+        email: req.user.email,
+        profileImageName: req.user.profileImageName
 
     }
 
@@ -180,13 +187,20 @@ const updateUserProfile = asyncHandler ( async (req, res) => {
         
         }
 
+        if(req.file){
+
+            user.profileImageName = req.file.filename || user.profileImageName;
+
+        }
+
         const updatedUserData = await user.save();
 
         // Send the response with updated user data
         res.status(200).json({
 
             name: updatedUserData.name,
-            email: updatedUserData.email
+            email: updatedUserData.email,
+            profileImageName: updatedUserData.profileImageName
 
         });
 

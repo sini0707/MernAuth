@@ -2,7 +2,7 @@
 
 // ===================== Importing necessary modules/files =====================
 import express from 'express';
-import authenticateUser from '../middlewares/userAuthMiddleware.js';
+import authenticateAdmin from '../middlewares/adminAuthMiddleware.js';
 
 
 
@@ -10,14 +10,15 @@ import authenticateUser from '../middlewares/userAuthMiddleware.js';
 const router = express.Router();
 
 import {
-    authUser,
-    registerUser,
-    logoutUser,
-    getUserProfile,
-    updateUserProfile
-} from '../controllers/userController.js';
-
-import { multerUploadUserProfile } from '../config/multerConfig.js';
+    authAdmin,
+    registerAdmin,
+    logoutAdmin,
+    getAdminProfile,
+    updateAdminProfile,
+    getAllUsers,
+    deleteUserData,
+    updateUserData
+} from '../controllers/adminController.js';
 
 
 
@@ -27,14 +28,20 @@ import { multerUploadUserProfile } from '../config/multerConfig.js';
 
 //* ==================== Authentication Routes ====================
 
-router.post('/', registerUser);
+router.post('/', registerAdmin);
 
-router.post('/auth', authUser);
+router.post('/auth', authAdmin);
 
-router.post('/logout', logoutUser);
+router.post('/logout', logoutAdmin);
 
-router.route('/profile').get( authenticateUser, getUserProfile ).put( authenticateUser, multerUploadUserProfile.single('profileImage'), updateUserProfile );
+router.route('/profile').get( authenticateAdmin, getAdminProfile ).put( authenticateAdmin, updateAdminProfile );
 // In the above line, the route is same, above line will use the specified controller according to the type of the request
+
+router.post('/get-users', authenticateAdmin, getAllUsers);
+
+router.post('/delete-user', authenticateAdmin, deleteUserData);
+
+router.put('/update-user', updateUserData);
 
 
 

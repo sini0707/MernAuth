@@ -1,45 +1,47 @@
 import { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
-import FormContainer from "../components/FormContainer";
+import { Link, useNavigate } from "react-router-dom";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import FormContainer from "../../components/FormContainer";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setCredentials } from "../slices/authSlice";
-import { useUpdateUserMutation } from "../slices/userApiSlice";
+import { useAdminRegisterMutation } from "../../slices/adminApiSlice";
+import { setCredentials } from "../../slices/adminAuthSlice";
 
 import { toast } from "react-toastify";
 
-import Loader from "../components/Loader";
-
-import { PROFILE_IMAGE_DIR_PATH } from "../utils/constants";
+import Loader from "../../components/Loader";
 
 
 
 
 
 
-const ProfileScreen = () => {
+const AdminRegisterScreen = () => {
 
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [profileImage, setProfileImage] = useState();
+  const [adminRegistrationKey, setAdminRegistrationKey] = useState("");
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { userInfo } = useSelector( (state) => state.auth );
+  const { adminInfo } = useSelector( (state) => state.adminAuth );
 
-  const [ updateProfile, { isLoading } ] = useUpdateUserMutation()
+  const [register, { isLoading }] = useAdminRegisterMutation();
 
+  useEffect( () => {
 
-  useEffect(() => {
+    if(adminInfo) {
 
-    setName(userInfo.name);
-    setEmail(userInfo.email);
+      navigate('/admin');
 
-  },[ userInfo.name, userInfo.email])
+    }
+
+  }, [ navigate, adminInfo ] );
 
   const submitHandler = async (e) => {
     
@@ -53,18 +55,11 @@ const ProfileScreen = () => {
 
       try{
 
-        const formData = new FormData();
-
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('profileImage', profileImage);
-
-        const responseFromApiCall = await updateProfile( formData ).unwrap();
+        const responseFromApiCall = await register( { name, email, password, adminRegistrationKey } ).unwrap();
 
         dispatch( setCredentials( { ...responseFromApiCall } ) );
         
-        toast.success( "Profile updated successfully" );
+        navigate('/admin');
 
       }catch(err){
 
@@ -80,30 +75,7 @@ const ProfileScreen = () => {
 
   return (
     <FormContainer>
-
-      {userInfo.profileImageName && (
-        <img
-          src={PROFILE_IMAGE_DIR_PATH + userInfo.profileImageName}
-          alt={userInfo.name}
-          style={{
-            width: "150px",
-            height: "150px",
-            borderRadius: "50%",
-            objectFit: "cover",
-            display: "block",
-            marginTop: "5px",
-            marginLeft: "115px",
-            marginBottom: "10px",
-          }}
-        />
-      )}
-
-      <h3 style={{
-            display: "block",
-            marginTop: "5px",
-            marginLeft: "100px",
-            marginBottom: "5px",
-      }}>Update Profile</h3>
+      <h1>Admin Registration</h1>
 
       <Form onSubmit={submitHandler}>
             <Form.Group className="my-2" controlId="name">            
@@ -146,21 +118,27 @@ const ProfileScreen = () => {
                 ></Form.Control>
             </Form.Group>
 
-            <Form.Group className="my-2" controlId="profileImage">
-              <Form.Label>Profile Picture</Form.Label>
-              <Form.Control
-                type="file"
-                onChange={(e) => setProfileImage(e.target.files[0])}
-              ></Form.Control>
+            <Form.Group className="my-2" controlId="confirmPassword">
+                <Form.Label>Admin Registration Code</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="Enter admin registration code"
+                    value={adminRegistrationKey}
+                    onChange={(e) => setAdminRegistrationKey(e.target.value)}
+                ></Form.Control>
             </Form.Group>
 
-            <Button type="submit" variant="primary" className="mt-3"> Save </Button>
+            <Button type="submit" variant="primary" className="mt-3"> Sign Up </Button>
       </Form>
 
       { isLoading && <> <Loader/> </>}
+
+      <Row className="py-3">
+        <Col> Already have an account? <Link to={`/admin/login`}>Login</Link></Col>
+      </Row>
       
     </FormContainer>
   );
 };
 
-export default ProfileScreen;
+export default AdminRegisterScreen;

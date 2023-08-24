@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const userSchema = mongoose.Schema({
+const adminSchema = mongoose.Schema({
 
     name: {
         type: String,
@@ -15,9 +15,6 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    profileImageName: {
-        type: String
     }
 
 },{
@@ -28,7 +25,7 @@ const userSchema = mongoose.Schema({
 
 
 // ============= Password Hashing Middleware =============
-userSchema.pre('save', async function (next) {
+adminSchema.pre('save', async function (next) {
 
     if( !this.isModified('password') ) {
 
@@ -49,9 +46,9 @@ userSchema.pre('save', async function (next) {
 
 
 // ============= Password Verifying Function =============
-userSchema.methods.matchPassword = async function (userProvidedPassword) {
+adminSchema.methods.matchPassword = async function (adminProvidedPassword) {
 
-    const validPassword = await bcrypt.compare(userProvidedPassword, this.password);
+    const validPassword = await bcrypt.compare(adminProvidedPassword, this.password);
 
     return validPassword;
 
@@ -62,6 +59,6 @@ userSchema.methods.matchPassword = async function (userProvidedPassword) {
 
 
 
-const User = mongoose.model('User', userSchema);
+const Admin = mongoose.model('Admin', adminSchema);
 
-export default User;
+export default Admin;

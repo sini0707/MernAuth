@@ -9,6 +9,7 @@ dotenv.config();
 
 // ===================== Importing necessary files =====================
 import userRoutes from './routes/userRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 import { notFoundErrorHandler, errorHandler } from './middlewares/errorMiddleware.js';
 
 
@@ -22,6 +23,9 @@ const app = express();
 import connectDB from './config/db.js';
 
 connectDB();
+
+// ===================== Setting Static Folder =====================
+app.use(express.static('backend/Public'));
 
 
 // ========================================== Middleware's ==========================================
@@ -37,13 +41,14 @@ app.use(express.urlencoded({ extended: true })); // Form Data parser Middleware 
 //? ===================== Application Home Route =====================
 app.get('/', (req, res)=> {
     
-    res.status(200).send(`${process.env.APPLICATION_NAME} server is Up & Running.`);
+    res.status(200).json(`${process.env.APPLICATION_NAME} Server and Systems are Up & Running.`);
 
 });
 
 
 //? ===================== Routes Configuration =====================
 app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 
 

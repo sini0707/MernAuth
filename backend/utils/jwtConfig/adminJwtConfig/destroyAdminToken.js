@@ -1,9 +1,9 @@
-//? ===================================================== JWT Authentication =====================================================
+//? ===================================================== Admin JWT Deletion =====================================================
 
 import jwt from 'jsonwebtoken';
 
 
-const destroyToken = (res) => {
+const destroyAdminToken = (res) => {
 
     // Empty string to place in cookie instead of token 
     const jwtToken = '';
@@ -17,10 +17,10 @@ const destroyToken = (res) => {
 
     };
 
-    res.cookie('jwt', jwtToken, cookieOptions); 
+    res.cookie('adminJwt', jwtToken, cookieOptions); 
 
 };
 
 
 
-export default destroyToken;
+export default destroyAdminToken;

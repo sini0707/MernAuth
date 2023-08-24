@@ -1,12 +1,12 @@
-//? ===================================================== JWT Authentication =====================================================
+//? ===================================================== Admin JWT Authentication =====================================================
 
 import jwt from 'jsonwebtoken';
 
 
-const generateToken = (res, userId) => {
+const generateAdminToken = (res, userId) => {
 
     // Creating a new json webtoken with userId and secret key
-    const jwtToken = jwt.sign({userId}, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_TOKEN_DURATION } );
+    const jwtToken = jwt.sign({userId}, process.env.JWT_SECRET_KEY_ADMIN, { expiresIn: process.env.JWT_TOKEN_DURATION } );
 
     const cookieOptions = {
 
@@ -17,10 +17,10 @@ const generateToken = (res, userId) => {
 
     };
 
-    res.cookie('jwt', jwtToken, cookieOptions); 
+    res.cookie('adminJwt', jwtToken, cookieOptions); 
 
 };
 
 
 
-export default generateToken;
+export default generateAdminToken;

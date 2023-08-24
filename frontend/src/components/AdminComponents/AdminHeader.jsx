@@ -5,17 +5,17 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from '../slices/userApiSlice.js';
-import { logout } from '../slices/authSlice.js';
+import { useAdminLogoutMutation } from '../../slices/adminApiSlice.js';
+import { logout } from '../../slices/adminAuthSlice.js';
 
-const Header = () => {
+const AdminHeader = () => {
 
-  const { userInfo } = useSelector( (state) => state.auth);
+  const { adminInfo } = useSelector( (state) => state.adminAuth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [ logoutApiCall ] = useLogoutMutation();
+  const [ logoutApiCall ] = useAdminLogoutMutation();
 
   const logOutHandler = async () => {
 
@@ -25,7 +25,7 @@ const Header = () => {
 
       dispatch( logout() );
 
-      navigate( '/' );
+      navigate( '/admin' );
 
     } catch (err) {
 
@@ -39,21 +39,21 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <LinkContainer to="/">
-            <Navbar.Brand>Compass User</Navbar.Brand>
+          <LinkContainer to="/admin">
+            <Navbar.Brand>Compass Admin</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
 
             <Nav className="ms-auto">
 
-              { userInfo ? (
+              { adminInfo ? (
 
                 <>
 
-                  <NavDropdown title={userInfo.name} id="userName">
+                  <NavDropdown title={adminInfo.name} id="userName">
 
-                    <LinkContainer to='/profile'>
+                    <LinkContainer to='/admin/profile'>
                       <NavDropdown.Item> Profile </NavDropdown.Item>
                     </LinkContainer>
 
@@ -65,13 +65,13 @@ const Header = () => {
                 
               ) : (
                 <>
-                  <LinkContainer to="/login">
+                  <LinkContainer to="/admin/login">
                     <Nav.Link>
                       <FaSignInAlt /> Sign In
                     </Nav.Link>
                   </LinkContainer>
 
-                  <LinkContainer to="/register">
+                  <LinkContainer to="/admin/register">
                     <Nav.Link>
                       <FaSignOutAlt /> Sign Up
                     </Nav.Link>
@@ -88,4 +88,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminHeader;
