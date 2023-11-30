@@ -40,7 +40,7 @@ const AdminHeader = () => {
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to="/admin">
-            <Navbar.Brand>Compass Admin</Navbar.Brand>
+            <Navbar.Brand>Welcome Admin</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

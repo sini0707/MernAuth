@@ -38,8 +38,8 @@ const Hero = () => {
             </>
             : 
             <>
-              <h2 className='text-center mb-4'> Compass User  </h2>
-              <p className='text-center mb-4'> Please Login to access User Dashboard </p>
+              <h2 className='text-center mb-4'> Welcome User.....  </h2>
+              <p className='text-center mb-4'> Please Login to access User Home page </p>
               <div className='d-flex'>
                 <LinkContainer to='/login'>
                     <Button variant='primary' className='me-3'>
